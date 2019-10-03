@@ -5,11 +5,16 @@
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.9",
+    "@types/react": "^16.9.4",
+    "@types/react-dom": "^16.9.1",
     "cross-env": "^6.0.3",
     "electron-is-dev": "^1.1.0",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
-    "react-scripts": "3.1.2"
+    "react-scripts": "3.1.2",
+    "typescript": "^3.6.3"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -17,7 +22,7 @@
     "react-test": "react-scripts test --env=jsdom",
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
-    "release": "yarn react-build && electron-builder --publish=always",
+    "release": "yarn react-build && electron-builder",
     "build": "yarn react-build && yarn electron-build",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
@@ -41,7 +46,6 @@
     "electron": "^6.0.11",
     "electron-builder": "^21.2.0",
     "eslint-plugin-react-hooks": "^2.1.1",
-    "typescript": "^3.6.3",
     "wait-on": "^3.3.0"
   },
   "author": {
@@ -56,6 +60,9 @@
     "mac": {
       "identity": null,
       "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "createDesktopShortcut": "always"
     },
     "linux": {
       "target": [
