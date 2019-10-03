@@ -26,7 +26,8 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "yarn --ignore-engines --link-duplicates --pure-lockfile && yarn release --linux --armv7l --arm64 --win"
+        /bin/bash -c "yarn --ignore-engines --link-duplicates --pure-lockfile && yarn release --linux --armv7l --arm64"
+        # -- win
     else
       yarn --pure-lockfile release
     fi
@@ -48,10 +49,7 @@ deploy:
     secure: xMzGw7I3wEnXu3HJSq3EL9VrWZeT1crWrG1qrjsoj8+9ncm+3qinosZfPcbQX8m/un2GDBdVpfiT11ezAI+fCZUtdL330LKSLXFVpnPNpzxk/Jf5XMErVPW8hVvWw8/0lh9rtyVpRRNzAGxxNr8+uxqwZG4Gov7QNPJ5h3SKW22fFHaZijLH0d3CJus070kRJhe8Cd4muvkh2rZ44ztejpAZAhv9uXvfv69loWs2x087VhLKOs+LYGOMfKLyVYtuvgGP0ZnARV4Z8xnBL15idIcuH5oBHOh0p46+A+SrEFkogN+a+/FkTRFznJz5quJ9h1g1SnWdAc3V5pr12Czdhe/V2AF37Ow8SvM05KpiZ5zvc2gzQap4zPqlLeSoBMkA/1hewFKH1cnWfyfIdCHVIwyKxoXK/GUO4R1WAVd+eSYeyeLDGyL91yBMEJ9FC/AYh+URdhNpWTeFC9MbzDMq96EBPyksKt4QWCBm4+laopYY9iCSw50VOGn9YeuWe/CL/gELZHX3Jznn+ueR7uAMvjl581tGLxmpeMhdYQ/rZtkdfRmsQKONkSYidPiHFBRQp7usqYApKPyhtC2GUm6mU+TkVv2miOfTO6KJ1v46GIotN15G3tQVVvy7Puat0LMWIRO4eMYYTtViYvSZLxqPlVpwugBcW0DwB4Xrm5F/yLo=
   file_glob: true
   file:
-    - dist/Nano-Penny-Exchanger-0.1.0-mac.zip
-    - dist/Nano-Penny-Exchanger-0.1.0.dmg
-    - dist/Nano-Penny-Exchanger-0.1.0.AppImage
-    - "dist/Nano-Penny-Exchanger Setup 0.1.0.exe"
+    - dist/**/*
   skip_cleanup: true
   draft: true
   on:
