@@ -1,6 +1,6 @@
 import React from "react";
 
-const initialBalance = 0;
+export const initialBalance = 0;
 
 type ContextProps = [number, Function];
 

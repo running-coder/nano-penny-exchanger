@@ -9,7 +9,7 @@ import { BalanceContext } from "contexts/Balance";
 import { RateContext } from "contexts/Rate";
 import { PriceContext } from "contexts/Price";
 
-const MAX_DECIMALS = 1000000000000;
+const MAX_DECIMALS = 1000000;
 
 const BalanceStep: React.FunctionComponent = () => {
   const [balance] = React.useContext(BalanceContext);
@@ -30,17 +30,13 @@ const BalanceStep: React.FunctionComponent = () => {
       textAlign="center"
       color={isActive ? "gray-100" : "gray-500"}
     >
-      <Box>
-        <Box as="span" fontSize="2rem">
-          $
-        </Box>
-        <Box as="span" fontSize="3rem">
-          {(balance / 100).toFixed(2)}
-        </Box>
+      <Box as="span" fontSize="3rem">
+        ${(balance / 100).toFixed(2)}
       </Box>
-      <Text color={isActive ? "gray-100" : "gray-500"}>
+
+      {/* <Text color={isActive ? "gray-100" : "gray-500"}>
         $ {(balance / rate / 100).toFixed(2)} USD
-      </Text>
+      </Text> */}
 
       {balance && rate && price ? (
         <>
@@ -73,7 +69,13 @@ const BalanceStep: React.FunctionComponent = () => {
                 <Button
                   variant="secondary"
                   fill
-                  onClick={() => setStep(Steps.BLOCKCHAIN)}
+                  onClick={() => {
+                    setStep(Steps.BLOCKCHAIN);
+
+                    fetch("http://localhost:8080/send", {
+                      method: "POST"
+                    });
+                  }}
                 >
                   Convert
                 </Button>

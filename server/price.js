@@ -1,11 +1,10 @@
 const { net } = require("electron");
-const { wss } = require("./websocket");
+const { Session } = require("./classes/Session");
 
 const POLL_PRICE_TIMEOUT = 30000;
 const NANO_USDT_URL =
   "https://api.binance.com/api/v3/ticker/price?symbol=NANOUSDT";
 
-let ws = null;
 let pollTimeout = null;
 
 const getPrice = () => {
@@ -15,7 +14,8 @@ const getPrice = () => {
       try {
         const { price } = JSON.parse(data);
 
-        ws.send(
+        Session.price = price;
+        Session.ws.send(
           JSON.stringify({
             price
           })
@@ -37,10 +37,9 @@ const pollPrice = () => {
   }, POLL_PRICE_TIMEOUT);
 };
 
-wss.on("connection", wsc => {
+const initPollPrice = () => {
   pollPrice();
-  ws = wsc;
-  ws.on("message", message => {
+  Session.ws.on("message", message => {
     try {
       const { method } = JSON.parse(message);
       if (method === "getPrice") {
@@ -50,6 +49,6 @@ wss.on("connection", wsc => {
       // log error?
     }
   });
-});
+};
 
-exports.pollPrice = pollPrice;
+exports.initPollPrice = initPollPrice;

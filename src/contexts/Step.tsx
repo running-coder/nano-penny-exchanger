@@ -7,15 +7,17 @@ export const Steps = {
   DONE: "done"
 };
 
+const initialStep = Steps.WALLET;
+
 type ContextProps = [string, Function];
 
 export const StepContext = React.createContext<ContextProps>([
-  Steps.WALLET,
+  initialStep,
   () => {}
 ]);
 
 const Provider: React.FunctionComponent = ({ children }) => {
-  const [step, setStep] = React.useState<string>(Steps.WALLET);
+  const [step, setStep] = React.useState<string>(initialStep);
 
   return (
     <StepContext.Provider value={[step, setStep]}>

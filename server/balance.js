@@ -1,4 +1,4 @@
-const { wss } = require("./websocket.js");
+const { Session } = require("./classes/Session");
 const debounce = require("lodash/debounce");
 
 const PulseToAmountMap = {
@@ -9,18 +9,7 @@ const PulseToAmountMap = {
   5: 5 // 5c
 };
 
-let ws = null;
 let pulseCount = 0;
-let balance = 0;
-
-wss.on("connection", wsc => {
-  ws = wsc;
-  ws.send(
-    JSON.stringify({
-      balance
-    })
-  );
-});
 
 const addPulse = () => {
   pulseCount++;
@@ -29,21 +18,21 @@ const addPulse = () => {
 const countPulses = debounce(() => {
   console.log("signalsCount->", pulseCount);
 
-  balance += PulseToAmountMap[pulseCount] || 0;
+  Session.balance += PulseToAmountMap[pulseCount] || 0;
   pulseCount = 0;
 
   try {
-    ws.send(
+    Session.ws.send(
       JSON.stringify({
-        balance
+        balance: Session.balance
       })
     );
   } catch (e) {
     // log error?
   }
 
-  console.log("balance:", (balance / 100).toFixed(2));
+  console.log("balance:", (Session.balance / 100).toFixed(2));
 }, 250);
 
-exports.addPulse = addPulse;
 exports.countPulses = countPulses;
+exports.addPulse = addPulse;

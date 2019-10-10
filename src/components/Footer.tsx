@@ -14,17 +14,22 @@ const Footer: React.FunctionComponent = () => {
   return (
     <Box pb={2}>
       <Divider color="gray-600" py={2} />
-      <Flex width="100%">
+      <Flex width="100%" justifyContent="space-between">
         <Box width="33%">
-          <Text>$ {price}</Text>
+          {/* <Text>{rate}</Text>
           <Text fontSize="0.825rem" color="gray-500">
-            Nano USD market price
-          </Text>
+            USD/CAD rate
+          </Text> */}
+          {/* <Text>${price}</Text>
+          <Text fontSize="0.825rem" color="gray-500">
+            Nano/USD
+          </Text> */}
         </Box>
+
         <Box width="33%" textAlign="center">
-          <Text>{rate}</Text>
+          <Text>${(price * rate).toFixed(8)}</Text>
           <Text fontSize="0.825rem" color="gray-500">
-            1$ USD/CAD rate
+            Nano/CAD
           </Text>
         </Box>
         <Box

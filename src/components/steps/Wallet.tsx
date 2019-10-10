@@ -5,7 +5,9 @@ import { IconVerified } from "@lightspeed/flame/Icon/Verified";
 import { Button } from "@lightspeed/flame/Button";
 import { Text } from "@lightspeed/flame/Text";
 import { WalletContext } from "contexts/Wallet";
+import { IsSubscribedContext } from "contexts/IsSubscribed";
 import { Steps, StepContext } from "contexts/Step";
+import { Connection } from "classes/Connection";
 
 interface ColorizeWalletProps {
   wallet: string;
@@ -33,19 +35,30 @@ const ColorizeWallet: React.FunctionComponent<ColorizeWalletProps> = ({
 };
 
 const WalletStep: React.FunctionComponent = () => {
-  const [wallet, setWallet, isValidWallet, setIsValidWallet] = React.useContext(
-    WalletContext
-  );
+  const [isLoading, setIsLoading] = React.useState<boolean>();
+  const [wallet, , isValidWallet] = React.useContext(WalletContext);
   const [step, setStep] = React.useContext(StepContext);
+  const [isSubscribed] = React.useContext(IsSubscribedContext);
 
-  //@NOTE: only for setting up the design
-  React.useEffect(() => {
-    setWallet(
-      "nano_1a4gxn8nhi6nksd18xzccp678r8qm3ixqbiyeetc446ahuya9jf8bnyrt55h"
+  const sendWallet = () => {
+    setIsLoading(true);
+    // @ts-ignore
+    Connection.ws.send(
+      JSON.stringify({
+        address: wallet
+      })
     );
-    setIsValidWallet(true);
-    // eslint-disable-next-line
-  }, []);
+  };
+
+  React.useEffect(() => {
+    setIsLoading(false);
+
+    if (isSubscribed) {
+      setStep(Steps.BALANCE);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubscribed]);
+
   return (
     <Box width="33%">
       {!wallet ? (
@@ -73,8 +86,7 @@ const WalletStep: React.FunctionComponent = () => {
 
           {step === Steps.WALLET ? (
             <Box pt={3} fontSize="0.825rem" color="#D7DCE1">
-              Nano(s) will be deposited to the above address, verify that it is
-              correct.
+              Nano will be sent to the above address, verify that it is correct.
             </Box>
           ) : null}
 
@@ -83,7 +95,10 @@ const WalletStep: React.FunctionComponent = () => {
               <Button
                 variant="secondary"
                 fill
-                onClick={() => setStep(Steps.BALANCE)}
+                disabled={isLoading}
+                loading={isLoading}
+                // onClick={() => setStep(Steps.BALANCE)}
+                onClick={() => sendWallet()}
               >
                 Confirm Wallet
               </Button>

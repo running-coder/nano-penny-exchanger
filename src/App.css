@@ -1,5 +1,71 @@
 #root {
   height: 100vh;
   background: #464a51;
-  color: #D7DCE1;
+  color: #d7dce1;
+}
+
+.transition-wrapper {
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.transition-wrapper .transition-item {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.help-page {
+  overflow: auto;
+  box-sizing: border-box;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.help-page.transition-appear {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.help-page.transition-appear.transition-appear-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.help-page.transition-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.help-page.transition-leave.transition-leave-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.index-page {
+  overflow: auto;
+  box-sizing: border-box;
+  transition: transform 0.5s, opacity 0.5s;
+  transform: translate3d(0, 0, 0);
+}
+
+.index-page.transition-appear {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.index-page.transition-appear.transition-appear-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.index-page.transition-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.index-page.transition-leave.transition-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
 }

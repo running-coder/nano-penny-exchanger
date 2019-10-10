@@ -6,10 +6,8 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 
 require("../server/websocket");
+// require("../server/tunnel");
 require("../server/arduino");
-require("../server/balance");
-require("../server/price");
-require("../server/rate");
 
 let mainWindow;
 
@@ -28,7 +26,9 @@ function createWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

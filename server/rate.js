@@ -1,5 +1,5 @@
 const { net } = require("electron");
-const { wss } = require("./websocket");
+const { Session } = require("./classes/Session");
 
 const POLL_RATE_TIMEOUT = 30000;
 // https://exchangeratesapi.io/
@@ -15,12 +15,13 @@ const getRate = () => {
     response.on("data", data => {
       try {
         const {
-          rates: { CAD }
+          rates: { CAD: rate }
         } = JSON.parse(data);
 
-        ws.send(
+        Session.rate = rate;
+        Session.ws.send(
           JSON.stringify({
-            rate: CAD
+            rate
           })
         );
       } catch (e) {
@@ -40,10 +41,9 @@ const pollRate = () => {
   }, POLL_RATE_TIMEOUT);
 };
 
-wss.on("connection", wsc => {
+const initPollRate = () => {
   pollRate();
-  ws = wsc;
-  ws.on("message", message => {
+  Session.ws.on("message", message => {
     try {
       const { method } = JSON.parse(message);
       if (method === "getRate") {
@@ -53,6 +53,6 @@ wss.on("connection", wsc => {
       // log error?
     }
   });
-});
+};
 
-exports.pollRate = pollRate;
+exports.initPollRate = initPollRate;

@@ -2,6 +2,7 @@ import React from "react";
 import debounce from "lodash/debounce";
 import { Steps, StepContext } from "contexts/Step";
 import { WalletContext } from "contexts/Wallet";
+import { IsSubscribedContext } from "contexts/IsSubscribed";
 import { isValidPublicAddress } from "utils/.";
 
 const MIN_BARCODE_LENGTH = 60;
@@ -10,12 +11,11 @@ let barcode = "";
 
 const useScanner = () => {
   const [, setWallet, , setIsValidWallet] = React.useContext(WalletContext);
-  const [, setStep] = React.useContext(StepContext);
+  const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
+  const [step, setStep] = React.useContext(StepContext);
 
   const registerBarcodeScan = (e: KeyboardEvent) => {
     e.stopPropagation();
-
-    console.log(e.key);
 
     if (
       [
@@ -38,7 +38,11 @@ const useScanner = () => {
   };
 
   const prepareBarcodeScanSubmit = debounce(() => {
-    if (keyCount >= MIN_BARCODE_LENGTH) {
+    setIsSubscribed(null);
+    if (
+      keyCount >= MIN_BARCODE_LENGTH &&
+      [Steps.WALLET, Steps.BALANCE].includes(step)
+    ) {
       const isValid = isValidPublicAddress(barcode);
       setIsValidWallet(isValid);
       setWallet(barcode);
