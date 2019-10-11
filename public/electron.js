@@ -1,12 +1,8 @@
-const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-
+const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
 require("../server/websocket");
-// require("../server/tunnel");
 require("../server/arduino");
 
 let mainWindow;
@@ -26,9 +22,7 @@ function createWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
-app.on("ready", () => {
-  createWindow();
-});
+app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

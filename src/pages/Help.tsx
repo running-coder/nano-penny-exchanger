@@ -70,8 +70,11 @@ const HelpPage: React.FunctionComponent<Props> = ({ history }) => {
             <canvas id="canvas-nano"></canvas>
           </Group>
         </Box>
+        <Box pb={2}>
+          <Text>Only Canadian coins are accepted: 2$, 1$, 25¢, 10¢, 5¢</Text>
+        </Box>
 
-        <Text>Only Canadian coins are accepted: 2$, 1$, 25¢, 10¢, 5¢</Text>
+        <Text>No fees are taken, you are purchasing at market price</Text>
       </Box>
 
       <Footer />
