@@ -31,7 +31,12 @@ const BalanceStep: React.FunctionComponent = () => {
       color={isActive ? "gray-100" : "gray-500"}
     >
       <Box as="span" fontSize="3rem">
-        ${(balance / 100).toFixed(2)}
+        <Box as="span" fontSize="2.2rem">
+          $
+        </Box>
+        <Box as="span" fontSize="3rem">
+          {(balance / 100).toFixed(2)}
+        </Box>
       </Box>
 
       {/* <Text color={isActive ? "gray-100" : "gray-500"}>

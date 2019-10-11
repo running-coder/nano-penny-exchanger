@@ -4,7 +4,11 @@ const WebSocket = require("ws");
 const { Session } = require("./classes/Session");
 const { initPollPrice } = require("./price");
 const { initPollRate } = require("./rate");
-const { deleteWebhooks, subscribeToWebhook } = require("./snapy");
+const {
+  deleteWebhooks,
+  subscribeToWebhook,
+  sendTransaction
+} = require("./snapy");
 
 const dispatcher = new HttpDispatcher();
 
@@ -36,7 +40,6 @@ const server = http.createServer(function(req, res) {
 dispatcher.onPost("/send", function(req, res) {
   res.end("success");
 
-  const { sendTransaction } = require("./snapy");
   sendTransaction();
 });
 
@@ -58,8 +61,6 @@ wss.on("connection", ws => {
   initPollPrice();
   initPollRate();
   listenForMessages();
-  // listenForAddress();
-  // listenForSend();
   // listenForPocketPending();
 });
 
@@ -85,6 +86,12 @@ const listenForMessages = () => {
         Session.ws.send(JSON.stringify({ isSubscribed: !!isSubscribed }));
       } else if (method === "reset") {
         Session.reset();
+      } else if (method === "getBalance") {
+        Session.ws.send(
+          JSON.stringify({
+            balance: Session.balance
+          })
+        );
       }
     } catch (e) {
       // log error?

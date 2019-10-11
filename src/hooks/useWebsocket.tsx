@@ -54,6 +54,8 @@ const useWebsocket = () => {
       Connection.ws.send(JSON.stringify({ method: "getPrice" }));
       // @ts-ignore
       Connection.ws.send(JSON.stringify({ method: "getRate" }));
+      // @ts-ignore
+      Connection.ws.send(JSON.stringify({ method: "getBalance" }));
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

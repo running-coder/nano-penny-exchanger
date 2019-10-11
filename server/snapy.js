@@ -202,7 +202,7 @@ const sendTransaction = forceAmount => {
   });
 
   const data = JSON.stringify({
-    to: process.env.NANO_RECEIVE_TEST_ADDRESS,
+    to: Session.address,
     from: process.env.SNAPY_NANO_ADDRESS,
     amount,
     password: process.env.SNAPY_API_PASSWORD
