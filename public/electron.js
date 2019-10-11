@@ -8,7 +8,11 @@ require("../server/arduino");
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 900, height: 680 });
+  mainWindow = new BrowserWindow({
+    width: 900,
+    height: 680,
+    icon: "./public/icon1024.png"
+  });
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
