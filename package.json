@@ -79,6 +79,7 @@
     "productName": "Nano-Penny-Exchanger",
     "copyright": "Copyright © 2019 ${author}",
     "mac": {
+      "icon": "./public/icon.icns",
       "identity": null,
       "category": "public.app-category.utilities"
     },
