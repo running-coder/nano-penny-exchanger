@@ -66,8 +66,6 @@ const WalletStep: React.FunctionComponent = () => {
           <IconBarcode size="2rem" color="#D7DCE1" />
           <Text mt={2} color="#D7DCE1">
             Scan your Nano wallet
-            <br />
-            to continue
           </Text>
         </Box>
       ) : null}

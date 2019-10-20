@@ -57,8 +57,8 @@ const BlockchainStep: React.FunctionComponent = () => {
     const canvasHash = document.getElementById("canvas-hash");
 
     QRCode.toCanvas(canvasHash, `https://www.nanode.co/block/${hash}`, {
-      margin: 2,
-      width: 50
+      margin: 1,
+      width: 80
     });
   }, [hash]);
 
@@ -90,7 +90,7 @@ const BlockchainStep: React.FunctionComponent = () => {
       textAlign="center"
       color={isActive ? "gray-100" : "gray-500"}
     >
-      <Box pb={2}>
+      <Box pb={1}>
         {step !== Steps.BLOCKCHAIN ? (
           <Text>Broadcast transaction to Nano blockchain</Text>
         ) : null}
@@ -102,16 +102,15 @@ const BlockchainStep: React.FunctionComponent = () => {
 
       {step === Steps.BLOCKCHAIN ? (
         <>
-          {isDone ? (
-            <Box pb={3} fontSize="0.825rem" color="#D7DCE1">
-              The transaction is broadcasted, you should see the Nano being
-              received in your walled shortly
+          {isDone && !isConfirmed ? (
+            <Box pb={1} fontSize="0.825rem" color="#D7DCE1">
+              The transaction is broadcasted.
             </Box>
           ) : null}
 
           {isConfirmed ? (
-            <Box pb={3} fontSize="0.825rem" color="#D7DCE1">
-              The transaction is fully verified on the Nano blockchain!{" "}
+            <Box pb={1} fontSize="0.825rem" color="#D7DCE1">
+              The transaction is fully confirmed on the Nano blockchain!{" "}
               <span role="img" aria-labelledby="celebrate">
                 🎉
               </span>
@@ -122,7 +121,7 @@ const BlockchainStep: React.FunctionComponent = () => {
             <Box pb={2}>
               {!isConfirmed ? (
                 <>
-                  <Box pb={3} fontSize="0.825rem" color="#D7DCE1">
+                  <Box pb={1} fontSize="0.825rem" color="#D7DCE1">
                     The transaction is being validated on the Nano blockchain
                   </Box>
                   <Spinner size="2.2rem" color="#4CADE9" />

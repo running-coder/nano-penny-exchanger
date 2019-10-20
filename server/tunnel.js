@@ -1,12 +1,12 @@
 const localtunnel = require("localtunnel");
-const dotenv = require("dotenv");
-
-dotenv.config();
+const { getConfiguration } = require("./configuration");
 
 (async () => {
+  const { LOCAL_TUNNEL_SUBDOMAIN } = getConfiguration();
+
   const tunnel = await localtunnel({
     port: 8080,
-    subdomain: process.env.LOCAL_TUNNEL_SUBDOMAIN
+    subdomain: LOCAL_TUNNEL_SUBDOMAIN
   });
 
   console.log(`Opening tunnel at ${tunnel.url}`);

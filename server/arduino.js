@@ -12,6 +12,7 @@ board.on("ready", () => {
     if (ignoreInitialPulses) return;
 
     console.log("value~~", value);
+
     if (value === 1) {
       addPulse();
     }

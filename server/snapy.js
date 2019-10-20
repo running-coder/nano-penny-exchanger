@@ -1,12 +1,13 @@
 const { net } = require("electron");
-const dotenv = require("dotenv");
 const { Session } = require("./classes/Session");
 
-dotenv.config();
+const { getConfiguration } = require("./configuration");
 
 const SNAPY_API_BASE_URL = "https://snapy.io/api/v1";
 
 // CREATE SNAPY WALLET
+
+// const { SNAPY_API_KEY, SNAPY_API_PASSWORD } = getConfiguration();
 
 // const createWalletRequest = net.request({
 //   url: `${SNAPY_API_BASE_URL}/wallets`,
@@ -15,12 +16,12 @@ const SNAPY_API_BASE_URL = "https://snapy.io/api/v1";
 // });
 
 // const data = JSON.stringify({
-//   password: process.env.SNAPY_API_PASSWORD
+//   password: SNAPY_API_PASSWORD
 // });
 
 // createWalletRequest.setHeader("Content-Type", "application/json");
 // createWalletRequest.setHeader("Content-Length", data.length);
-// createWalletRequest.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+// createWalletRequest.setHeader("x-api-key", env.SNAPY_API_KEY);
 
 // createWalletRequest.on("response", response => {
 //   response.on("data", data => {
@@ -39,7 +40,9 @@ const SNAPY_API_BASE_URL = "https://snapy.io/api/v1";
 //   protocol: "https"
 // });
 
-// createAddressRequest.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+// const { SNAPY_API_KEY } = getConfiguration();
+
+// createAddressRequest.setHeader("x-api-key", SNAPY_API_KEY);
 
 // createAddressRequest.on("response", response => {
 //   response.on("data", data => {
@@ -56,7 +59,9 @@ const SNAPY_API_BASE_URL = "https://snapy.io/api/v1";
 //   protocol: "https"
 // });
 
-// getAddressBalanceRequest.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+// const { SNAPY_API_KEY } = getConfiguration();
+
+// getAddressBalanceRequest.setHeader("x-api-key", SNAPY_API_KEY);
 
 // getAddressBalanceRequest.on("response", response => {
 //   response.on("data", data => {
@@ -73,7 +78,9 @@ const SNAPY_API_BASE_URL = "https://snapy.io/api/v1";
 //   protocol: "https"
 // });
 
-// getStatusNodesRequest.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+// const { SNAPY_API_KEY } = getConfiguration();
+
+// getStatusNodesRequest.setHeader("x-api-key", SNAPY_API_KEY);
 
 // getStatusNodesRequest.on("response", response => {
 //   response.on("data", data => {
@@ -93,7 +100,9 @@ const deleteWebhooks = () => {
       protocol: "https"
     });
 
-    request.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+    const { SNAPY_API_KEY } = getConfiguration();
+
+    request.setHeader("x-api-key", SNAPY_API_KEY);
 
     request.on("response", response => {
       response.on("data", data => {
@@ -128,7 +137,7 @@ const deleteWebhooks = () => {
                 });
               });
 
-              deleteRequest.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+              deleteRequest.setHeader("x-api-key", SNAPY_API_KEY);
               deleteRequest.end();
             });
           }
@@ -152,15 +161,17 @@ const subscribeToWebhook = address => {
       protocol: "https"
     });
 
+    const { SNAPY_API_KEY, LOCAL_TUNNEL_SUBDOMAIN } = getConfiguration();
+
     const data = JSON.stringify({
       address,
-      url: `https://${process.env.LOCAL_TUNNEL_SUBDOMAIN}.localtunnel.me/callbacks`,
+      url: `https://${LOCAL_TUNNEL_SUBDOMAIN}.localtunnel.me/callbacks`,
       confirmations: 3
     });
 
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Content-Length", data.length);
-    request.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+    request.setHeader("x-api-key", SNAPY_API_KEY);
 
     request.on("response", response => {
       response.on("data", data => {
@@ -195,6 +206,12 @@ const sendTransaction = forceAmount => {
       (Session.balance / Session.rate / Session.price / 100) * MAX_DECIMALS
     );
 
+  const {
+    SNAPY_API_KEY,
+    SNAPY_API_PASSWORD,
+    SNAPY_NANO_ADDRESS
+  } = getConfiguration();
+
   const request = net.request({
     url: `${SNAPY_API_BASE_URL}/send`,
     method: "POST",
@@ -203,14 +220,14 @@ const sendTransaction = forceAmount => {
 
   const data = JSON.stringify({
     to: Session.address,
-    from: process.env.SNAPY_NANO_ADDRESS,
+    from: SNAPY_NANO_ADDRESS,
     amount,
-    password: process.env.SNAPY_API_PASSWORD
+    password: SNAPY_API_PASSWORD
   });
 
   request.setHeader("Content-Type", "application/json");
   request.setHeader("Content-Length", data.length);
-  request.setHeader("x-api-key", process.env.SNAPY_API_KEY);
+  request.setHeader("x-api-key", SNAPY_API_KEY);
 
   request.on("response", response => {
     response.on("data", data => {

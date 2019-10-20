@@ -5,6 +5,7 @@ import { RateContext } from "contexts/Rate";
 import { HashContext } from "contexts/Hash";
 import { IsSubscribedContext } from "contexts/IsSubscribed";
 import { IsConfirmedContext } from "contexts/IsConfirmed";
+import { ConfigurationContext } from "contexts/Configuration";
 import { Connection } from "classes/Connection";
 
 const useWebsocket = () => {
@@ -14,6 +15,7 @@ const useWebsocket = () => {
   const [, setHash] = React.useContext(HashContext);
   const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
   const [, setIsConfirmed] = React.useContext(IsConfirmedContext);
+  const [, setConfiguration] = React.useContext(ConfigurationContext);
 
   React.useEffect(() => {
     Connection.ws = new WebSocket("ws://localhost:8080");
@@ -26,7 +28,8 @@ const useWebsocket = () => {
           balance,
           hash,
           isSubscribed,
-          isConfirmed
+          isConfirmed,
+          configuration
         } = JSON.parse(data);
 
         console.log("app receives", data);
@@ -43,6 +46,9 @@ const useWebsocket = () => {
           setIsSubscribed(isSubscribed);
         } else if (isConfirmed) {
           setIsConfirmed(isConfirmed);
+        } else if (configuration) {
+          console.log("received config", configuration);
+          setConfiguration(configuration);
         }
       } catch (e) {
         // Error handling

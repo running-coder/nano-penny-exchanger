@@ -1,0 +1,145 @@
+import React from "react";
+import styled from "@emotion/styled";
+import { Box, Flex } from "@lightspeed/flame/Core";
+import { Button } from "@lightspeed/flame/Button";
+import { Input } from "@lightspeed/flame/Input";
+import { Modal, ModalBody, ModalFooter } from "@lightspeed/flame/Modal";
+import { ConfigurationContext, IConfiguration } from "contexts/Configuration";
+import { Connection } from "classes/Connection";
+
+const StyledModal = styled(Modal)`
+  width: 100%;
+`;
+
+const Configuration = () => {
+  const [configuration] = React.useContext<[IConfiguration, Function]>(
+    ConfigurationContext
+  );
+
+  const [isSaving, setIsSaving] = React.useState<boolean>(false);
+  // const [isSaved, setIsSaved] = React.useState<boolean>(false);
+  const [apiKey, setApiKey] = React.useState<string>(
+    configuration.SNAPY_API_KEY || ""
+  );
+  const [apiPassword, setApiPassword] = React.useState<string>(
+    configuration.SNAPY_API_PASSWORD || ""
+  );
+  const [nanoAddress, setNanoAddress] = React.useState<string>(
+    configuration.SNAPY_NANO_ADDRESS || ""
+  );
+  const [tunnel, setTunnel] = React.useState<string>(
+    configuration.LOCAL_TUNNEL_SUBDOMAIN || ""
+  );
+
+  React.useEffect(() => {
+    console.log("configuration", configuration);
+    if (!configuration) return;
+
+    if (configuration.SNAPY_API_KEY) {
+      setApiKey(configuration.SNAPY_API_KEY);
+    }
+    if (configuration.SNAPY_API_PASSWORD) {
+      setApiPassword(configuration.SNAPY_API_PASSWORD);
+    }
+    if (configuration.SNAPY_NANO_ADDRESS) {
+      setNanoAddress(configuration.SNAPY_NANO_ADDRESS);
+    }
+    if (configuration.LOCAL_TUNNEL_SUBDOMAIN) {
+      setTunnel(configuration.LOCAL_TUNNEL_SUBDOMAIN);
+    }
+  }, [configuration]);
+
+  const isMissingConfiguration =
+    !configuration.SNAPY_API_KEY ||
+    !configuration.SNAPY_API_PASSWORD ||
+    !configuration.SNAPY_NANO_ADDRESS ||
+    !configuration.LOCAL_TUNNEL_SUBDOMAIN;
+
+  const isSaveEnabled = !apiKey || !apiPassword || !nanoAddress || !tunnel;
+
+  const saveConfiguration = () => {
+    setIsSaving(true);
+
+    // @ts-ignore
+    Connection.ws.send(
+      JSON.stringify({
+        configuration: {
+          SNAPY_API_KEY: apiKey,
+          SNAPY_API_PASSWORD: apiPassword,
+          SNAPY_NANO_ADDRESS: nanoAddress,
+          LOCAL_TUNNEL_SUBDOMAIN: tunnel
+        }
+      })
+    );
+  };
+
+  return (
+    <StyledModal isOpen={isMissingConfiguration}>
+      <ModalBody style={{ padding: "12px", width: "100%" }}>
+        <Box pb={1}>
+          <Input
+            type="search"
+            placeholder="Snapy.io API key"
+            value={apiKey}
+            onChange={e => {
+              // @ts-ignore
+              const { value } = e.target;
+              setApiKey(value);
+            }}
+          />
+        </Box>
+        <Box pb={1}>
+          <Input
+            type="search"
+            placeholder="Snapy.io API Password"
+            value={apiPassword}
+            onChange={e => {
+              // @ts-ignore
+              const { value } = e.target;
+              setApiPassword(value);
+            }}
+          />
+        </Box>
+        <Box pb={1}>
+          <Input
+            type="search"
+            placeholder="Snapy.io Nano Address"
+            value={nanoAddress}
+            onChange={e => {
+              // @ts-ignore
+              const { value } = e.target;
+              setNanoAddress(value);
+            }}
+          />
+        </Box>
+        <Box pb={1}>
+          <Input
+            type="search"
+            placeholder="Tunnel subdomain (This is a random string)"
+            value={tunnel}
+            onChange={e => {
+              // @ts-ignore
+              const { value } = e.target;
+              setTunnel(value);
+            }}
+          />
+        </Box>
+      </ModalBody>
+      <ModalFooter style={{ padding: "12px" }}>
+        <Flex justifyContent="flex-end">
+          <Button
+            variant="secondary"
+            fill
+            loading={isSaving}
+            onClick={saveConfiguration}
+            disabled={isSaveEnabled}
+          >
+            Save
+          </Button>
+        </Flex>
+      </ModalFooter>
+    </StyledModal>
+  );
+};
+
+export default Configuration;

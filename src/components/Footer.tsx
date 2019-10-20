@@ -12,8 +12,8 @@ const Footer: React.FunctionComponent = () => {
   const [rate] = React.useContext(RateContext);
 
   return (
-    <Box pb={2}>
-      <Divider color="gray-600" py={2} />
+    <Box pb={1}>
+      <Divider color="gray-600" py={1} />
       <Flex width="100%" justifyContent="space-between">
         <Box width="33%">
           {/* <Text>{rate}</Text>

@@ -5,6 +5,10 @@ const { Session } = require("./classes/Session");
 const { initPollPrice } = require("./price");
 const { initPollRate } = require("./rate");
 const {
+  sendConfiguration,
+  setConfiguration
+} = require("../server/configuration");
+const {
   deleteWebhooks,
   subscribeToWebhook,
   sendTransaction
@@ -58,9 +62,11 @@ const wss = new WebSocket.Server({ server });
 
 wss.on("connection", ws => {
   Session.ws = ws;
+  sendConfiguration();
   initPollPrice();
   initPollRate();
   listenForMessages();
+
   // listenForPocketPending();
 });
 
@@ -74,7 +80,7 @@ server.listen(wsServerPort, wsServerHostname, () => {
 const listenForMessages = () => {
   Session.ws.on("message", async message => {
     try {
-      const { address, method } = JSON.parse(message);
+      const { address, method, configuration } = JSON.parse(message);
 
       console.log("~~~~message", message);
 
@@ -84,6 +90,8 @@ const listenForMessages = () => {
         const isSubscribed = await subscribeToWebhook(address);
 
         Session.ws.send(JSON.stringify({ isSubscribed: !!isSubscribed }));
+      } else if (configuration) {
+        setConfiguration(configuration);
       } else if (method === "reset") {
         Session.reset();
       } else if (method === "getBalance") {

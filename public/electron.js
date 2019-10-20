@@ -9,8 +9,8 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680,
+    width: 480,
+    height: 320,
     icon: "./public/icon1024.png"
   });
   mainWindow.loadURL(
@@ -18,11 +18,6 @@ function createWindow() {
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
-  if (isDev) {
-    //   // Open the DevTools.
-    //   //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
-    mainWindow.webContents.openDevTools();
-  }
   mainWindow.on("closed", () => (mainWindow = null));
 }
 

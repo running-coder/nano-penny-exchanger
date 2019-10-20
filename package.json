@@ -1,35 +1,14 @@
 {
   "name": "nano-penny-exchanger",
-  "version": "0.1.0",
-  "private": true,
+  "productName": "Nano Penny Exchanger",
+  "description": "Transform your pocket change into some sweet Nanos",
+  "version": "0.0.1",
+  "private": false,
   "main": "public/electron.js",
-  "homepage": "./",
-  "dependencies": {
-    "@emotion/core": "^10",
-    "@emotion/styled": "^10",
-    "@lightspeed/flame": "^0.2.0",
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.9",
-    "@types/react": "^16.9.4",
-    "@types/react-dom": "^16.9.1",
-    "cross-env": "^6.0.3",
-    "dotenv": "^8.1.0",
-    "electron-is-dev": "^1.1.0",
-    "emotion-theming": "^10",
-    "eslint": "^6.5.1",
-    "httpdispatcher": "^2.1.2",
-    "johnny-five": "^1.3.1",
-    "localtunnel": "^2.0.0",
-    "lodash": "^4.17.15",
-    "qrcode": "^1.4.2",
-    "react": "^16",
-    "react-dom": "^16",
-    "react-router-dom": "^5.1.2",
-    "react-router-page-transition": "^3.1.0",
-    "react-scripts": "3.1.2",
-    "typescript": "^3.6.3",
-    "ws": "^7.1.2"
+  "author": {
+    "name": "Tom Bertrand"
   },
+  "license": "MIT",
   "scripts": {
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
@@ -55,6 +34,60 @@
       "last 1 safari version"
     ]
   },
+  "build": {
+    "asar": false,
+    "appId": "com.nano.npe",
+    "copyright": "Copyright © 2019 ${author}",
+    "npmRebuild": "false",
+    "mac": {
+      "icon": "./public/icon.icns",
+      "identity": null,
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "icons/icon.ico"
+    },
+    "linux": {
+      "icon": "icons",
+      "target": [
+        "AppImage"
+      ]
+    },
+    "files": [
+      "build/**",
+      "server/**"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "dependencies": {
+    "@emotion/core": "^10",
+    "@emotion/styled": "^10",
+    "@lightspeed/flame": "^0.2.0",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.9",
+    "@types/react": "^16.9.4",
+    "@types/react-dom": "^16.9.1",
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.1.0",
+    "electron-is-dev": "^1.1.0",
+    "electron-store": "^5.0.0",
+    "emotion-theming": "^10",
+    "eslint": "^6.5.1",
+    "httpdispatcher": "^2.1.2",
+    "johnny-five": "^1.3.1",
+    "localtunnel": "^2.0.0",
+    "lodash": "^4.17.15",
+    "qrcode": "^1.4.2",
+    "react": "^16",
+    "react-dom": "^16",
+    "react-router-dom": "^5.1.2",
+    "react-router-page-transition": "^3.1.0",
+    "react-scripts": "3.1.2",
+    "typescript": "^3.6.3",
+    "ws": "^7.1.2"
+  },
   "devDependencies": {
     "@types/concurrently": "^4.1.0",
     "@types/dotenv": "^6.1.1",
@@ -65,40 +98,9 @@
     "@types/wait-on": "^3.2.0",
     "@types/ws": "^6.0.3",
     "concurrently": "^4.1.2",
-    "electron": "^6.0.11",
+    "electron": "^6.0.12",
     "electron-builder": "^21.2.0",
     "eslint-plugin-react-hooks": "^2.1.2",
     "wait-on": "^3.3.0"
-  },
-  "author": {
-    "name": "Your Name",
-    "email": "your.email@domain.com",
-    "url": "https://your-website.com"
-  },
-  "build": {
-    "appId": "com.my-website.my-app",
-    "productName": "Nano-Penny-Exchanger",
-    "copyright": "Copyright © 2019 ${author}",
-    "npmRebuild": "false",
-    "mac": {
-      "icon": "./public/icon.icns",
-      "identity": null,
-      "category": "public.app-category.utilities"
-    },
-    "nsis": {
-      "createDesktopShortcut": "always"
-    },
-    "linux": {
-      "target": [
-        "AppImage"
-      ]
-    },
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
   }
 }

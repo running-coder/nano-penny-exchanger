@@ -4,7 +4,8 @@ import PageTransition from "react-router-page-transition";
 import {
   FlameTheme,
   lightTheme,
-  FlameGlobalStyles
+  FlameGlobalStyles,
+  FlameFonts
 } from "@lightspeed/flame/Core";
 import { ThemeProvider } from "emotion-theming";
 
@@ -24,6 +25,7 @@ const App: React.FunctionComponent = () => {
           <Scanner />
           <Websocket />
           <FlameGlobalStyles />
+          <FlameFonts />
           <Router>
             <Route
               // @ts-ignore

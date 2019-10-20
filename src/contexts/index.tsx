@@ -8,6 +8,7 @@ import BalanceProvider from "./Balance";
 import HashProvider from "./Hash";
 import IsSubscribedProvider from "./IsSubscribed";
 import IsConfirmedProvider from "./IsConfirmed";
+import ConfigurationContext from "./Configuration";
 
 const IndexProvider: React.FunctionComponent = ({ children }) => {
   return (
@@ -18,7 +19,9 @@ const IndexProvider: React.FunctionComponent = ({ children }) => {
             <BalanceProvider>
               <HashProvider>
                 <IsSubscribedProvider>
-                  <IsConfirmedProvider>{children}</IsConfirmedProvider>
+                  <IsConfirmedProvider>
+                    <ConfigurationContext>{children}</ConfigurationContext>
+                  </IsConfirmedProvider>
                 </IsSubscribedProvider>
               </HashProvider>
             </BalanceProvider>
