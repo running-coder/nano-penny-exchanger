@@ -12,12 +12,15 @@ const StyledModal = styled(Modal)`
 `;
 
 const Configuration = () => {
-  const [configuration] = React.useContext<[IConfiguration, Function]>(
+  const [
+    configuration,
+    ,
+    isConfigurationVisible,
+    setIsConfigurationVisible
+  ] = React.useContext<[IConfiguration, Function, boolean, Function]>(
     ConfigurationContext
   );
 
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
-  // const [isSaved, setIsSaved] = React.useState<boolean>(false);
   const [apiKey, setApiKey] = React.useState<string>(
     configuration.SNAPY_API_KEY || ""
   );
@@ -32,7 +35,6 @@ const Configuration = () => {
   );
 
   React.useEffect(() => {
-    console.log("configuration", configuration);
     if (!configuration) return;
 
     if (configuration.SNAPY_API_KEY) {
@@ -58,7 +60,7 @@ const Configuration = () => {
   const isSaveEnabled = !apiKey || !apiPassword || !nanoAddress || !tunnel;
 
   const saveConfiguration = () => {
-    setIsSaving(true);
+    setIsConfigurationVisible(false);
 
     // @ts-ignore
     Connection.ws.send(
@@ -74,7 +76,7 @@ const Configuration = () => {
   };
 
   return (
-    <StyledModal isOpen={isMissingConfiguration}>
+    <StyledModal isOpen={isMissingConfiguration || isConfigurationVisible}>
       <ModalBody style={{ padding: "12px", width: "100%" }}>
         <Box pb={1}>
           <Input
@@ -130,7 +132,6 @@ const Configuration = () => {
           <Button
             variant="secondary"
             fill
-            loading={isSaving}
             onClick={saveConfiguration}
             disabled={isSaveEnabled}
           >

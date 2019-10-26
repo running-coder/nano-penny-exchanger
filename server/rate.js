@@ -1,5 +1,5 @@
 const { net } = require("electron");
-const { Session } = require("./classes/Session");
+const { Session } = require("./Session");
 
 const POLL_RATE_TIMEOUT = 30000;
 // https://exchangeratesapi.io/

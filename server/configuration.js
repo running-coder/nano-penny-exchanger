@@ -1,11 +1,7 @@
 const Store = require("electron-store");
-const { app } = require("electron");
-const { Session } = require("./classes/Session");
 
 const store = new Store();
 const configurationPath = "../configuration.json";
-
-console.log('~~app.getPath("userData")', app.getPath("userData"));
 
 const generateRandomString = (
   length = 0,
@@ -21,7 +17,7 @@ const getConfiguration = () => {
   let configuration = {};
 
   try {
-    configuration = store.get(configurationPath);
+    configuration = store.get(configurationPath) || {};
   } catch (e) {
     // File doesn't exist
   }
@@ -45,9 +41,16 @@ const sendConfiguration = async () => {
   );
 };
 
+const sendShowConfiguration = () => {
+  Session.ws.send("showConfiguration");
+};
+
 const setConfiguration = async configuration => {
-  console.log(configuration);
   store.set(configurationPath, configuration);
+
+  if (configuration.LOCAL_TUNNEL_SUBDOMAIN) {
+    setTunnel();
+  }
 
   Session.ws.send(
     JSON.stringify({
@@ -58,4 +61,8 @@ const setConfiguration = async configuration => {
 
 exports.getConfiguration = getConfiguration;
 exports.sendConfiguration = sendConfiguration;
+exports.sendShowConfiguration = sendShowConfiguration;
 exports.setConfiguration = setConfiguration;
+
+const { Session } = require("./Session");
+const { setTunnel } = require("./tunnel");

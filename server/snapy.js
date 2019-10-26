@@ -1,5 +1,5 @@
 const { net } = require("electron");
-const { Session } = require("./classes/Session");
+const { Session } = require("./Session");
 
 const { getConfiguration } = require("./configuration");
 

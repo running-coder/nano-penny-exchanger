@@ -5,6 +5,7 @@ class Session {
     this._rate = 0;
     this._address = "";
     this._ws = null;
+    this._store = null;
   }
 
   static reset() {
@@ -50,6 +51,14 @@ class Session {
 
   set ws(ws) {
     this._ws = ws;
+  }
+
+  get store() {
+    return this._store;
+  }
+
+  set store(store) {
+    this._store = store;
   }
 }
 

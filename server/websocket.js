@@ -1,13 +1,10 @@
 const http = require("http");
 const HttpDispatcher = require("httpdispatcher");
 const WebSocket = require("ws");
-const { Session } = require("./classes/Session");
+const { Session } = require("./Session");
 const { initPollPrice } = require("./price");
 const { initPollRate } = require("./rate");
-const {
-  sendConfiguration,
-  setConfiguration
-} = require("../server/configuration");
+const { sendConfiguration, setConfiguration } = require("./configuration");
 const {
   deleteWebhooks,
   subscribeToWebhook,
@@ -66,8 +63,6 @@ wss.on("connection", ws => {
   initPollPrice();
   initPollRate();
   listenForMessages();
-
-  // listenForPocketPending();
 });
 
 const wsServerHostname = "localhost";
@@ -86,7 +81,9 @@ const listenForMessages = () => {
 
       if (address) {
         Session.address = address;
+
         await deleteWebhooks();
+
         const isSubscribed = await subscribeToWebhook(address);
 
         Session.ws.send(JSON.stringify({ isSubscribed: !!isSubscribed }));

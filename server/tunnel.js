@@ -1,7 +1,6 @@
 const localtunnel = require("localtunnel");
-const { getConfiguration } = require("./configuration");
 
-(async () => {
+const setTunnel = async () => {
   const { LOCAL_TUNNEL_SUBDOMAIN } = getConfiguration();
 
   const tunnel = await localtunnel({
@@ -14,4 +13,8 @@ const { getConfiguration } = require("./configuration");
   tunnel.on("close", () => {
     // tunnels are closed
   });
-})();
+};
+
+exports.setTunnel = setTunnel;
+
+const { getConfiguration } = require("./configuration");

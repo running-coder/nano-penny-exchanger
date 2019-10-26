@@ -15,12 +15,19 @@ const useWebsocket = () => {
   const [, setHash] = React.useContext(HashContext);
   const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
   const [, setIsConfirmed] = React.useContext(IsConfirmedContext);
-  const [, setConfiguration] = React.useContext(ConfigurationContext);
+  const [, setConfiguration, , setIsConfigurationVisible] = React.useContext(
+    ConfigurationContext
+  );
 
   React.useEffect(() => {
     Connection.ws = new WebSocket("ws://localhost:8080");
 
     Connection.ws.onmessage = ({ data }: MessageEvent) => {
+      if (data === "showConfiguration") {
+        setIsConfigurationVisible(true);
+        return;
+      }
+
       try {
         const {
           price,
@@ -47,7 +54,6 @@ const useWebsocket = () => {
         } else if (isConfirmed) {
           setIsConfirmed(isConfirmed);
         } else if (configuration) {
-          console.log("received config", configuration);
           setConfiguration(configuration);
         }
       } catch (e) {

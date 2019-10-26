@@ -14,10 +14,9 @@
     "react-build": "react-scripts build",
     "react-test": "react-scripts test --env=jsdom",
     "react-eject": "react-scripts eject",
-    "electron-build": "electron-builder",
-    "release": "yarn react-build && electron-builder",
-    "build": "yarn react-build && yarn electron-build",
-    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\" 'bash ./localtunnel.sh'"
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "yarn react-build && yarn electron-builder",
+    "release": "yarn react-build && electron-builder"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,27 +37,16 @@
     "asar": false,
     "appId": "com.nano.npe",
     "copyright": "Copyright © 2019 ${author}",
-    "npmRebuild": "false",
     "mac": {
-      "icon": "./public/icon.icns",
       "identity": null,
       "category": "public.app-category.utilities"
-    },
-    "win": {
-      "icon": "icons/icon.ico"
-    },
-    "linux": {
-      "icon": "icons",
-      "target": [
-        "AppImage"
-      ]
     },
     "files": [
       "build/**",
       "server/**"
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "public"
     }
   },
   "dependencies": {
@@ -100,6 +88,7 @@
     "concurrently": "^4.1.2",
     "electron": "^6.0.12",
     "electron-builder": "^21.2.0",
+    "electron-rebuild": "^1.8.6",
     "eslint-plugin-react-hooks": "^2.1.2",
     "wait-on": "^3.3.0"
   }

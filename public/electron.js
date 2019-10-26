@@ -1,6 +1,9 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
+
+const { getApplicationMenu } = require("../server/menu");
+const { setTunnel } = require("../server/tunnel");
 
 require("../server/websocket");
 require("../server/arduino");
@@ -21,7 +24,12 @@ function createWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+  setTunnel();
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(getApplicationMenu()));
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

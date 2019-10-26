@@ -1,5 +1,5 @@
 const { net } = require("electron");
-const { Session } = require("./classes/Session");
+const { Session } = require("./Session");
 
 const POLL_PRICE_TIMEOUT = 30000;
 const NANO_USDT_URL =

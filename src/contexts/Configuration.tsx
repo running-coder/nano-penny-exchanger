@@ -1,6 +1,7 @@
 import React from "react";
 
 export const initialConfiguration = {};
+export const initialIsConfigurationVisible = false;
 
 export interface IConfiguration {
   SNAPY_API_KEY?: string;
@@ -9,10 +10,12 @@ export interface IConfiguration {
   LOCAL_TUNNEL_SUBDOMAIN?: string;
 }
 
-type ContextProps = [IConfiguration, Function];
+type ContextProps = [IConfiguration, Function, boolean, Function];
 
 export const ConfigurationContext = React.createContext<ContextProps>([
   initialConfiguration,
+  () => {},
+  initialIsConfigurationVisible,
   () => {}
 ]);
 
@@ -20,13 +23,19 @@ const Provider: React.FunctionComponent = ({ children }) => {
   const [configuration, setConfiguration] = React.useState<IConfiguration>(
     initialConfiguration
   );
-
-  React.useEffect(() => {
-    console.log("configuration", configuration);
-  }, [configuration]);
+  const [isConfigurationVisible, setIsConfigurationVisible] = React.useState<
+    boolean
+  >(initialIsConfigurationVisible);
 
   return (
-    <ConfigurationContext.Provider value={[configuration, setConfiguration]}>
+    <ConfigurationContext.Provider
+      value={[
+        configuration,
+        setConfiguration,
+        isConfigurationVisible,
+        setIsConfigurationVisible
+      ]}
+    >
       {children}
     </ConfigurationContext.Provider>
   );
