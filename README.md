@@ -1,69 +1,21 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Nano Penny Exchanger
 
-## Available Scripts
+Exchange your pocket change for some sweet [Nano](https://nano.org/en). Inspired by the [original penny exchanger](https://medium.com/the-nano-center/change-old-to-new-penny-nano-exchanger-fbed0e0d609e) I've take on the challenge of creating a different version:
 
-In the project directory, you can run:
+## Material
 
-### `npm start`
+- Raspberry PI 2 Model B v1.1 & [WIFI adapter](https://www.amazon.ca/gp/product/B07FR95KBG/)
+- [Touch screen](https://www.amazon.ca/gp/product/B01CQIPEO0/)
+- [Coin acceptor](https://www.amazon.ca/gp/product/B07DC9K42G) & [Power supply](https://www.amazon.ca/gp/product/B076H3WKN4/)
+- [Arduino board](https://www.amazon.ca/Elegoo-Board-ATmega2560-ATMEGA16U2-Arduino/dp/B01H4ZLZLQ/)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tech stack
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# nano-penny-exchanger
+- [Electron](https://electronjs.org/) to build the app
+- [Electron builder](electron-builder) compile & publish the Electron app
+- [Jonny-five](http://johnny-five.io/) to interact with the Arduino board with nodejs
+- [React](https://reactjs.org/) to build the UI/UX
+- [Flame](https://github.com/lightspeed/flame) design system
+- [Snapy.io](https://snapy.io/) to easily interact with the Nano blockchain
+- [Localtunnel](https://github.com/localtunnel/localtunnel) subscribe to webhooks to receive the confirmed transaction
+- [Nanocrawler](https://nanocrawler.cc/) to verify the Nano transaction hash

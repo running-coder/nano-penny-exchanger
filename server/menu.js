@@ -26,7 +26,7 @@ const getApplicationMenu = () => {
       role: "help",
       submenu: [
         {
-          label: "Show Configuration",
+          label: "Configuration",
           click() {
             sendShowConfiguration();
           }

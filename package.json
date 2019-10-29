@@ -15,8 +15,8 @@
     "react-test": "react-scripts test --env=jsdom",
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build": "yarn react-build && yarn electron-builder",
-    "release": "yarn react-build && electron-builder"
+    "build": "yarn react-build && electron-builder -mwl",
+    "release": "yarn react-build && electron-builder -mwl --publish always"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +37,7 @@
     "asar": false,
     "appId": "com.nano.npe",
     "copyright": "Copyright © 2019 ${author}",
+    "npmRebuild": false,
     "mac": {
       "identity": null,
       "category": "public.app-category.utilities"
@@ -47,7 +48,15 @@
     ],
     "directories": {
       "buildResources": "public"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "private": false,
+        "owner": "running-coder",
+        "repo": "nano-penny-exchanger"
+      }
+    ]
   },
   "dependencies": {
     "@emotion/core": "^10",
@@ -68,11 +77,11 @@
     "localtunnel": "^2.0.0",
     "lodash": "^4.17.15",
     "qrcode": "^1.4.2",
-    "react": "^16",
-    "react-dom": "^16",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-router-page-transition": "^3.1.0",
-    "react-scripts": "3.1.2",
+    "react-scripts": "3.2.0",
     "typescript": "^3.6.3",
     "ws": "^7.1.2"
   },
