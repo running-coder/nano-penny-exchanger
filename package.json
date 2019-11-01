@@ -16,7 +16,7 @@
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "yarn react-build && electron-builder -mwl",
-    "release": "yarn react-build && electron-builder -mwl --publish always"
+    "release": "yarn react-build && electron-builder"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,7 +34,7 @@
     ]
   },
   "build": {
-    "asar": false,
+    "asar": true,
     "appId": "com.nano.npe",
     "copyright": "Copyright © 2019 ${author}",
     "npmRebuild": false,
