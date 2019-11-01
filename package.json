@@ -1,6 +1,6 @@
 {
   "name": "nano-penny-exchanger",
-  "productName": "Nano Penny Exchanger",
+  "productName": "Nano-Penny-Exchanger",
   "description": "Transform your pocket change into some sweet Nanos",
   "version": "0.0.1",
   "private": false,
@@ -16,7 +16,7 @@
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "yarn react-build && electron-builder -mwl",
-    "release": "yarn react-build && electron-builder"
+    "release": "yarn react-build && electron-builder --publish=never"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,21 +42,18 @@
       "identity": null,
       "category": "public.app-category.utilities"
     },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    },
     "files": [
       "build/**",
       "server/**"
     ],
     "directories": {
       "buildResources": "public"
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "private": false,
-        "owner": "running-coder",
-        "repo": "nano-penny-exchanger"
-      }
-    ]
+    }
   },
   "dependencies": {
     "@emotion/core": "^10",
