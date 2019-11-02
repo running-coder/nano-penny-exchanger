@@ -3,9 +3,8 @@ import styled from "@emotion/styled";
 import { Box, Flex } from "@lightspeed/flame/Core";
 import { Button } from "@lightspeed/flame/Button";
 import { Input } from "@lightspeed/flame/Input";
-import { Modal, ModalBody, ModalFooter } from "@lightspeed/flame/Modal";
+import { Modal, ModalBody } from "@lightspeed/flame/Modal";
 import { ConfigurationContext, IConfiguration } from "contexts/Configuration";
-import { Connection } from "classes/Connection";
 
 const StyledModal = styled(Modal)`
   width: 100%;
@@ -61,9 +60,9 @@ const Configuration = () => {
 
   const saveConfiguration = () => {
     setIsConfigurationVisible(false);
-
-    // @ts-ignore
-    Connection.ws.send(
+    console.log("sending message");
+    window.ipcRenderer.send(
+      "message",
       JSON.stringify({
         configuration: {
           SNAPY_API_KEY: apiKey,
@@ -126,9 +125,7 @@ const Configuration = () => {
             }}
           />
         </Box>
-      </ModalBody>
-      <ModalFooter style={{ padding: "12px" }}>
-        <Flex justifyContent="flex-end">
+        <Flex justifyContent="flex-end" pt={1}>
           <Button
             variant="secondary"
             fill
@@ -138,7 +135,7 @@ const Configuration = () => {
             Save
           </Button>
         </Flex>
-      </ModalFooter>
+      </ModalBody>
     </StyledModal>
   );
 };

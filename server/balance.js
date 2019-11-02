@@ -22,7 +22,8 @@ const countPulses = debounce(() => {
   pulseCount = 0;
 
   try {
-    Session.ws.send(
+    Session.mainWindow.webContents.send(
+      "message",
       JSON.stringify({
         balance: Session.balance
       })

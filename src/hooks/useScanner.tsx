@@ -3,6 +3,7 @@ import debounce from "lodash/debounce";
 import { Steps, StepContext } from "contexts/Step";
 import { WalletContext } from "contexts/Wallet";
 import { IsSubscribedContext } from "contexts/IsSubscribed";
+import { ConfigurationContext } from "contexts/Configuration";
 import { isValidPublicAddress } from "utils/.";
 
 const MIN_BARCODE_LENGTH = 60;
@@ -13,6 +14,7 @@ const useScanner = () => {
   const [, setWallet, , setIsValidWallet] = React.useContext(WalletContext);
   const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
   const [step, setStep] = React.useContext(StepContext);
+  const [, , isConfigurationVisible] = React.useContext(ConfigurationContext);
 
   const registerBarcodeScan = (e: KeyboardEvent) => {
     e.stopPropagation();
@@ -27,7 +29,8 @@ const useScanner = () => {
         "Hyper",
         "Delete",
         "Backspace"
-      ].includes(e.key)
+      ].includes(e.key) ||
+      isConfigurationVisible
     )
       return;
 
@@ -55,6 +58,7 @@ const useScanner = () => {
   }, 150);
 
   const pasteBarcode = (event: ClipboardEvent) => {
+    if (isConfigurationVisible) return;
     // @ts-ignore
     let paste = (event.clipboardData || window.clipboardData).getData("text");
 
@@ -73,7 +77,7 @@ const useScanner = () => {
       document.removeEventListener("paste", pasteBarcode, true);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isConfigurationVisible]);
 
   return <></>;
 };

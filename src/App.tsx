@@ -11,9 +11,10 @@ import { ThemeProvider } from "emotion-theming";
 
 import IndexProvider from "contexts/index";
 import Scanner from "hooks/useScanner";
-import Websocket from "hooks/useWebsocket";
+import IpcRenderer from "hooks/useIpcRenderer";
 import IndexPage from "pages/.";
 import HelpPage from "pages/Help";
+import Online from "components/Online";
 
 import "./App.css";
 
@@ -23,9 +24,10 @@ const App: React.FunctionComponent = () => {
       <FlameTheme>
         <IndexProvider>
           <Scanner />
-          <Websocket />
+          <IpcRenderer />
           <FlameGlobalStyles />
           <FlameFonts />
+          <Online />
           <Router>
             <Route
               // @ts-ignore

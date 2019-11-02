@@ -1,21 +1,22 @@
-const { net } = require("electron");
+const { net, ipcMain } = require("electron");
 const { Session } = require("./Session");
 
-const POLL_PRICE_TIMEOUT = 30000;
-const NANO_USDT_URL =
-  "https://api.binance.com/api/v3/ticker/price?symbol=NANOUSDT";
+const POLL_TIMEOUT = 30000;
+const PRICE_URL = "https://api.binance.com/api/v3/ticker/price?symbol=NANOUSDT";
 
 let pollTimeout = null;
 
 const getPrice = () => {
-  const request = net.request(NANO_USDT_URL);
+  const request = net.request(PRICE_URL);
   request.on("response", response => {
     response.on("data", data => {
       try {
         const { price } = JSON.parse(data);
 
         Session.price = price;
-        Session.ws.send(
+
+        Session.mainWindow.webContents.send(
+          "message",
           JSON.stringify({
             price
           })
@@ -31,24 +32,20 @@ const getPrice = () => {
 const pollPrice = () => {
   getPrice();
 
-  clearTimeout(pollTimeout);
+  if (pollTimeout) {
+    clearTimeout(pollTimeout);
+    pollTimeout = null;
+  }
+
   pollTimeout = setTimeout(() => {
     pollPrice();
-  }, POLL_PRICE_TIMEOUT);
+  }, POLL_TIMEOUT);
 };
 
-const initPollPrice = () => {
-  pollPrice();
-  Session.ws.on("message", message => {
-    try {
-      const { method } = JSON.parse(message);
-      if (method === "getPrice") {
-        getPrice();
-      }
-    } catch (e) {
-      // log error?
-    }
-  });
+const stopPollPrice = () => {
+  clearTimeout(pollTimeout);
 };
 
-exports.initPollPrice = initPollPrice;
+exports.getPrice = getPrice;
+exports.pollPrice = pollPrice;
+exports.stopPollPrice = stopPollPrice;

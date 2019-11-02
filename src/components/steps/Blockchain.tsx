@@ -18,7 +18,6 @@ import {
 } from "contexts/IsSubscribed";
 import { HashContext, initialHash } from "contexts/Hash";
 import { IsConfirmedContext, initialIsConfirmed } from "contexts/IsConfirmed";
-import { Connection } from "classes/Connection";
 
 const CONFIRMATION_MAX_TIMEOUT = 10000;
 const RESET_STEPS_MAX_TIMEOUT = 60000;
@@ -45,8 +44,7 @@ const BlockchainStep: React.FunctionComponent = () => {
     setIsConfirmed(initialIsConfirmed);
     setHash(initialHash);
 
-    // @ts-ignore
-    Connection.ws.send(JSON.stringify({ method: "reset" }));
+    window.ipcRenderer.send("message", JSON.stringify({ method: "reset" }));
 
     setStep(Steps.WALLET);
   };

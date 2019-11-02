@@ -1,27 +1,31 @@
+const { join } = require("path");
 const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-
+const { Session } = require("../server/Session");
 const { getApplicationMenu } = require("../server/menu");
 const { setTunnel } = require("../server/tunnel");
 
-require("../server/websocket");
+require("../server/server");
 require("../server/arduino");
 
-let mainWindow;
-
 function createWindow() {
-  mainWindow = new BrowserWindow({
+  Session.mainWindow = new BrowserWindow({
     width: 480,
     height: 320,
-    icon: "./public/icon1024.png"
+    icon: "./public/icon.png",
+    webPreferences: {
+      preload: join(__dirname, "../server/preload.js")
+    }
   });
-  mainWindow.loadURL(
+
+  Session.mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
-  mainWindow.on("closed", () => (mainWindow = null));
+
+  Session.mainWindow.on("closed", () => (Session.mainWindow = null));
 }
 
 app.on("ready", () => {
@@ -38,7 +42,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-  if (mainWindow === null) {
+  if (Session.mainWindow === null) {
     createWindow();
   }
 });

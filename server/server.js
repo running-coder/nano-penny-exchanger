@@ -1,9 +1,10 @@
 const http = require("http");
 const HttpDispatcher = require("httpdispatcher");
-const WebSocket = require("ws");
+const { ipcMain } = require("electron");
 const { Session } = require("./Session");
-const { initPollPrice } = require("./price");
-const { initPollRate } = require("./rate");
+const { getPrice, pollPrice, stopPollPrice } = require("./price");
+const { getRate, pollRate, stopPollRate } = require("./rate");
+
 const { sendConfiguration, setConfiguration } = require("./configuration");
 const {
   deleteWebhooks,
@@ -48,21 +49,31 @@ dispatcher.onPost("/callbacks", function(req, res) {
   res.end("success");
   console.log("Callback Webhook called");
 
-  Session.ws.send(
+  Session.mainWindow.webContents.send(
+    "message",
     JSON.stringify({
       isConfirmed: true
     })
   );
 });
 
-const wss = new WebSocket.Server({ server });
+// const wss = new WebSocket.Server({ server });
 
-wss.on("connection", ws => {
-  Session.ws = ws;
+ipcMain.on("start-app", () => {
   sendConfiguration();
-  initPollPrice();
-  initPollRate();
   listenForMessages();
+});
+
+ipcMain.on("online-status-changed", (_event, status) => {
+  console.log(status);
+
+  if (status === "online") {
+    pollPrice();
+    pollRate();
+  } else {
+    stopPollPrice();
+    stopPollRate();
+  }
 });
 
 const wsServerHostname = "localhost";
@@ -73,7 +84,7 @@ server.listen(wsServerPort, wsServerHostname, () => {
 });
 
 const listenForMessages = () => {
-  Session.ws.on("message", async message => {
+  ipcMain.on("message", async (_event, message) => {
     try {
       const { address, method, configuration } = JSON.parse(message);
 
@@ -86,17 +97,27 @@ const listenForMessages = () => {
 
         const isSubscribed = await subscribeToWebhook(address);
 
-        Session.ws.send(JSON.stringify({ isSubscribed: !!isSubscribed }));
+        Session.mainWindow.webContents.send(
+          "message",
+          JSON.stringify({
+            isSubscribed: !!isSubscribed
+          })
+        );
       } else if (configuration) {
         setConfiguration(configuration);
       } else if (method === "reset") {
         Session.reset();
       } else if (method === "getBalance") {
-        Session.ws.send(
+        Session.mainWindow.webContents.send(
+          "message",
           JSON.stringify({
             balance: Session.balance
           })
         );
+      } else if (method === "getPrice") {
+        getPrice();
+      } else if (method === "getRate") {
+        getRate();
       }
     } catch (e) {
       // log error?

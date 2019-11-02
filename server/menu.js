@@ -14,6 +14,7 @@ const getApplicationMenu = () => {
       submenu: [
         { role: "reload" },
         { role: "forcereload" },
+        { role: "toggledevtools" },
         { type: "separator" },
         { role: "resetzoom" },
         { role: "zoomin" },
@@ -35,7 +36,7 @@ const getApplicationMenu = () => {
         {
           label: "View GitHub",
           click() {
-            loadExternal(`${repository}/wiki`);
+            loadExternal(`${repository}`);
           }
         },
         {

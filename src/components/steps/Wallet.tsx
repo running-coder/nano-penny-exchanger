@@ -7,7 +7,6 @@ import { Text } from "@lightspeed/flame/Text";
 import { WalletContext } from "contexts/Wallet";
 import { IsSubscribedContext } from "contexts/IsSubscribed";
 import { Steps, StepContext } from "contexts/Step";
-import { Connection } from "classes/Connection";
 
 interface ColorizeWalletProps {
   wallet: string;
@@ -42,8 +41,9 @@ const WalletStep: React.FunctionComponent = () => {
 
   const sendWallet = () => {
     setIsLoading(true);
-    // @ts-ignore
-    Connection.ws.send(
+
+    window.ipcRenderer.send(
+      "message",
       JSON.stringify({
         address: wallet
       })

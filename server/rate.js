@@ -1,16 +1,13 @@
-const { net } = require("electron");
+const { net, ipcMain } = require("electron");
 const { Session } = require("./Session");
 
-const POLL_RATE_TIMEOUT = 30000;
-// https://exchangeratesapi.io/
-const CAD_TO_USD_URL =
-  "https://api.exchangeratesapi.io/latest?base=USD&symbols=CAD";
+const POLL_TIMEOUT = 30000;
+const RATE_URL = "https://api.exchangeratesapi.io/latest?base=USD&symbols=CAD";
 
-let ws = null;
 let pollTimeout = null;
 
 const getRate = () => {
-  const request = net.request(CAD_TO_USD_URL);
+  const request = net.request(RATE_URL);
   request.on("response", response => {
     response.on("data", data => {
       try {
@@ -19,7 +16,9 @@ const getRate = () => {
         } = JSON.parse(data);
 
         Session.rate = rate;
-        Session.ws.send(
+
+        Session.mainWindow.webContents.send(
+          "message",
           JSON.stringify({
             rate
           })
@@ -35,24 +34,20 @@ const getRate = () => {
 const pollRate = () => {
   getRate();
 
-  clearTimeout(pollTimeout);
+  if (pollTimeout) {
+    clearTimeout(pollTimeout);
+    pollTimeout = null;
+  }
+
   pollTimeout = setTimeout(() => {
     pollRate();
-  }, POLL_RATE_TIMEOUT);
+  }, POLL_TIMEOUT);
 };
 
-const initPollRate = () => {
-  pollRate();
-  Session.ws.on("message", message => {
-    try {
-      const { method } = JSON.parse(message);
-      if (method === "getRate") {
-        getRate();
-      }
-    } catch (e) {
-      // log error?
-    }
-  });
+const stopPollRate = () => {
+  clearTimeout(pollTimeout);
 };
 
-exports.initPollRate = initPollRate;
+exports.getRate = getRate;
+exports.pollRate = pollRate;
+exports.stopPollRate = stopPollRate;

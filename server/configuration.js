@@ -1,5 +1,5 @@
 const Store = require("electron-store");
-
+//const { Session } = require("./Session");
 const store = new Store();
 const configurationPath = "../configuration.json";
 
@@ -19,7 +19,7 @@ const getConfiguration = () => {
   try {
     configuration = store.get(configurationPath) || {};
   } catch (e) {
-    // File doesn't exist
+    // Issue w/ store
   }
 
   if (!configuration.LOCAL_TUNNEL_SUBDOMAIN) {
@@ -31,10 +31,11 @@ const getConfiguration = () => {
   return configuration;
 };
 
-const sendConfiguration = async () => {
+const sendConfiguration = () => {
   let configuration = getConfiguration();
 
-  Session.ws.send(
+  Session.mainWindow.webContents.send(
+    "message",
     JSON.stringify({
       configuration
     })
@@ -42,17 +43,18 @@ const sendConfiguration = async () => {
 };
 
 const sendShowConfiguration = () => {
-  Session.ws.send("showConfiguration");
+  Session.mainWindow.webContents.send("message", "showConfiguration");
 };
 
-const setConfiguration = async configuration => {
+const setConfiguration = configuration => {
   store.set(configurationPath, configuration);
 
   if (configuration.LOCAL_TUNNEL_SUBDOMAIN) {
     setTunnel();
   }
 
-  Session.ws.send(
+  Session.mainWindow.webContents.send(
+    "message",
     JSON.stringify({
       configuration
     })

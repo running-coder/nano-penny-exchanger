@@ -235,7 +235,7 @@ const sendTransaction = forceAmount => {
         const { hash } = JSON.parse(data.toString());
 
         Session.balance = 0;
-        Session.ws.send(
+        Session.mainWindow.webContents.send("message",
           JSON.stringify({
             hash
           })

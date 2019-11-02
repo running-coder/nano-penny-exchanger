@@ -6,9 +6,8 @@ import { HashContext } from "contexts/Hash";
 import { IsSubscribedContext } from "contexts/IsSubscribed";
 import { IsConfirmedContext } from "contexts/IsConfirmed";
 import { ConfigurationContext } from "contexts/Configuration";
-import { Connection } from "classes/Connection";
 
-const useWebsocket = () => {
+const IpcRenderer = () => {
   const [, setBalance] = React.useContext(BalanceContext);
   const [, setPrice] = React.useContext(PriceContext);
   const [, setRate] = React.useContext(RateContext);
@@ -20,9 +19,7 @@ const useWebsocket = () => {
   );
 
   React.useEffect(() => {
-    Connection.ws = new WebSocket("ws://localhost:8080");
-
-    Connection.ws.onmessage = ({ data }: MessageEvent) => {
+    window.ipcRenderer.on("message", (_event, data) => {
       if (data === "showConfiguration") {
         setIsConfigurationVisible(true);
         return;
@@ -59,16 +56,14 @@ const useWebsocket = () => {
       } catch (e) {
         // Error handling
       }
-    };
+    });
 
-    Connection.ws.onopen = () => {
-      // @ts-ignore
-      Connection.ws.send(JSON.stringify({ method: "getPrice" }));
-      // @ts-ignore
-      Connection.ws.send(JSON.stringify({ method: "getRate" }));
-      // @ts-ignore
-      Connection.ws.send(JSON.stringify({ method: "getBalance" }));
-    };
+    window.ipcRenderer.send("message", JSON.stringify({ method: "getPrice" }));
+    window.ipcRenderer.send("message", JSON.stringify({ method: "getRate" }));
+    window.ipcRenderer.send(
+      "message",
+      JSON.stringify({ method: "getBalance" })
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,4 +71,4 @@ const useWebsocket = () => {
   return <></>;
 };
 
-export default useWebsocket;
+export default IpcRenderer;
