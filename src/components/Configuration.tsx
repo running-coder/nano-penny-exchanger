@@ -14,11 +14,13 @@ const Configuration = () => {
   const [
     configuration,
     ,
+    isConfigurationReady,
+    ,
     isConfigurationVisible,
     setIsConfigurationVisible
-  ] = React.useContext<[IConfiguration, Function, boolean, Function]>(
-    ConfigurationContext
-  );
+  ] = React.useContext<
+    [IConfiguration, Function, boolean, Function, boolean, Function]
+  >(ConfigurationContext);
 
   const [apiKey, setApiKey] = React.useState<string>(
     configuration.SNAPY_API_KEY || ""
@@ -60,7 +62,7 @@ const Configuration = () => {
 
   const saveConfiguration = () => {
     setIsConfigurationVisible(false);
-    console.log("sending message");
+
     window.ipcRenderer.send(
       "message",
       JSON.stringify({
@@ -75,7 +77,12 @@ const Configuration = () => {
   };
 
   return (
-    <StyledModal isOpen={isMissingConfiguration || isConfigurationVisible}>
+    <StyledModal
+      isOpen={
+        isConfigurationReady &&
+        (isMissingConfiguration || isConfigurationVisible)
+      }
+    >
       <ModalBody style={{ padding: "12px", width: "100%" }}>
         <Box pb={1}>
           <Input

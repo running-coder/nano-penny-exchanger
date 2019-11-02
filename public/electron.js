@@ -4,6 +4,7 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 const { Session } = require("../server/Session");
 const { getApplicationMenu } = require("../server/menu");
+const { listenForMessages } = require("../server/message");
 const { setTunnel } = require("../server/tunnel");
 
 require("../server/server");
@@ -33,6 +34,7 @@ app.on("ready", () => {
   setTunnel();
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(getApplicationMenu()));
+  listenForMessages();
 });
 
 app.on("window-all-closed", () => {

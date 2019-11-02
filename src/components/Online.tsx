@@ -4,23 +4,17 @@ import { Flex } from "@lightspeed/flame/Core";
 const Online = () => {
   const [isOnline, setIsOnline] = React.useState<boolean>(navigator.onLine);
 
-  const sendOnlineStatus = (status: boolean) => {
-    // @ts-ignore
-    window.ipcRenderer.send(
-      "online-status-changed",
-      status ? "online" : "offline"
-    );
+  const sendOnlineStatus = (isOnline: boolean) => {
+    window.ipcRenderer.send("online-status-changed", isOnline);
   };
 
   React.useEffect(() => {
     window.addEventListener("load", function() {
-      // @ts-ignore
       window.ipcRenderer.send("start-app");
+
       sendOnlineStatus(isOnline);
 
       function updateOnlineStatus() {
-        console.log("isOnline", isOnline);
-
         sendOnlineStatus(navigator.onLine);
         setIsOnline(navigator.onLine);
       }
@@ -45,7 +39,14 @@ const Online = () => {
         background: "#464a51"
       }}
     >
-      <img src="offline.png" alt="offline" width="80%" />
+      <img
+        src="offline.png"
+        alt="offline"
+        width="80%"
+        style={{
+          filter: "brightness(100%) sepia(1) saturate(1) hue-rotate(160deg)"
+        }}
+      />
     </Flex>
   ) : null;
 };

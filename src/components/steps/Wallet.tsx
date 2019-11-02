@@ -42,6 +42,8 @@ const WalletStep: React.FunctionComponent = () => {
   const sendWallet = () => {
     setIsLoading(true);
 
+    console.log('SEND!?!??!?!?!')
+
     window.ipcRenderer.send(
       "message",
       JSON.stringify({
@@ -77,7 +79,6 @@ const WalletStep: React.FunctionComponent = () => {
               // backgroundColor: "rgba(255,255,255,0.2)",
               borderRadius: "3px"
             }}
-            p={2}
           >
             <ColorizeWallet wallet={wallet} />
           </Text>

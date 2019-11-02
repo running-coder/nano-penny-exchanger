@@ -14,9 +14,14 @@ const IpcRenderer = () => {
   const [, setHash] = React.useContext(HashContext);
   const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
   const [, setIsConfirmed] = React.useContext(IsConfirmedContext);
-  const [, setConfiguration, , setIsConfigurationVisible] = React.useContext(
-    ConfigurationContext
-  );
+  const [
+    ,
+    setConfiguration,
+    ,
+    setIsConfigurationReady,
+    ,
+    setIsConfigurationVisible
+  ] = React.useContext(ConfigurationContext);
 
   React.useEffect(() => {
     window.ipcRenderer.on("message", (_event, data) => {
@@ -52,6 +57,7 @@ const IpcRenderer = () => {
           setIsConfirmed(isConfirmed);
         } else if (configuration) {
           setConfiguration(configuration);
+          setIsConfigurationReady(true);
         }
       } catch (e) {
         // Error handling

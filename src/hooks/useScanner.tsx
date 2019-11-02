@@ -14,7 +14,9 @@ const useScanner = () => {
   const [, setWallet, , setIsValidWallet] = React.useContext(WalletContext);
   const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
   const [step, setStep] = React.useContext(StepContext);
-  const [, , isConfigurationVisible] = React.useContext(ConfigurationContext);
+  const [, , , , isConfigurationVisible] = React.useContext(
+    ConfigurationContext
+  );
 
   const registerBarcodeScan = (e: KeyboardEvent) => {
     e.stopPropagation();

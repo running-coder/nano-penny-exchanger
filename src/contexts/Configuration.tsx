@@ -1,6 +1,7 @@
 import React from "react";
 
 export const initialConfiguration = {};
+export const initialIsConfigurationReady = false;
 export const initialIsConfigurationVisible = false;
 
 export interface IConfiguration {
@@ -10,10 +11,19 @@ export interface IConfiguration {
   LOCAL_TUNNEL_SUBDOMAIN?: string;
 }
 
-type ContextProps = [IConfiguration, Function, boolean, Function];
+type ContextProps = [
+  IConfiguration,
+  Function,
+  boolean,
+  Function,
+  boolean,
+  Function
+];
 
 export const ConfigurationContext = React.createContext<ContextProps>([
   initialConfiguration,
+  () => {},
+  initialIsConfigurationReady,
   () => {},
   initialIsConfigurationVisible,
   () => {}
@@ -23,6 +33,9 @@ const Provider: React.FunctionComponent = ({ children }) => {
   const [configuration, setConfiguration] = React.useState<IConfiguration>(
     initialConfiguration
   );
+  const [isConfigurationReady, setIsConfigurationReady] = React.useState<
+    boolean
+  >(initialIsConfigurationReady);
   const [isConfigurationVisible, setIsConfigurationVisible] = React.useState<
     boolean
   >(initialIsConfigurationVisible);
@@ -32,6 +45,8 @@ const Provider: React.FunctionComponent = ({ children }) => {
       value={[
         configuration,
         setConfiguration,
+        isConfigurationReady,
+        setIsConfigurationReady,
         isConfigurationVisible,
         setIsConfigurationVisible
       ]}

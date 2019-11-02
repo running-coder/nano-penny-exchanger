@@ -54,10 +54,14 @@ const BlockchainStep: React.FunctionComponent = () => {
 
     const canvasHash = document.getElementById("canvas-hash");
 
-    QRCode.toCanvas(canvasHash, `https://nanocrawler.cc/block/${hash}`, {
-      margin: 1,
-      width: 80
-    });
+    QRCode.toCanvas(
+      canvasHash,
+      `https://nanocrawler.cc/explorer/block/${hash}`,
+      {
+        margin: 1,
+        width: 80
+      }
+    );
   }, [hash]);
 
   React.useEffect(() => {
