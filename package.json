@@ -16,7 +16,7 @@
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "yarn react-build && electron-builder -mwl -c.snap.publish=github",
-    "release": "yarn react-build && electron-builder --publish=never",
+    "release": "yarn react-build && electron-rebuild && electron-builder --publish=never",
     "rebuild": "electron-rebuild"
   },
   "eslintConfig": {
