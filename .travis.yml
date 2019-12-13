@@ -10,6 +10,11 @@ matrix:
       dist: trusty
       services: docker
       language: generic
+       addons:
+        snaps:
+        - name: aws-cli
+          confinement: classic
+          channel: edge
 cache:
   yarn: true
   directories:

@@ -15,7 +15,7 @@
     "react-test": "react-scripts test --env=jsdom",
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build": "yarn react-build && electron-builder -mwl",
+    "build": "yarn react-build && electron-builder -mwl -c.snap.publish=github",
     "release": "yarn react-build && electron-builder --publish=never",
     "rebuild": "electron-rebuild"
   },
@@ -44,9 +44,9 @@
       "category": "public.app-category.utilities"
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ]
+      "target": {
+        "target": "AppImage"
+      }
     },
     "files": [
       "build/**",
