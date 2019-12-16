@@ -79,11 +79,13 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-router-page-transition": "^3.1.0",
-    "react-scripts": "3.2.0",
-    "typescript": "^3.6.3",
+    "react-scripts": "^3.3.0",
+    "typescript": "^3.7.3",
     "ws": "^7.1.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
     "@types/concurrently": "^4.1.0",
     "@types/dotenv": "^6.1.1",
     "@types/eslint": "^6.1.3",

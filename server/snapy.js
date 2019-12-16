@@ -2,6 +2,7 @@ const { net } = require("electron");
 const { Session } = require("./Session");
 
 const { getConfiguration } = require("./configuration");
+const { LOCAL_TUNNEL_PROTOCOL } = require("./tunnel");
 
 const SNAPY_API_BASE_URL = "https://snapy.io/api/v1";
 
@@ -165,7 +166,7 @@ const subscribeToWebhook = address => {
 
     const data = JSON.stringify({
       address,
-      url: `https://${LOCAL_TUNNEL_SUBDOMAIN}.localtunnel.me/callbacks`,
+      url: `${LOCAL_TUNNEL_PROTOCOL}://${LOCAL_TUNNEL_SUBDOMAIN}.localtunnel.me/callbacks`,
       confirmations: 3
     });
 
@@ -235,7 +236,8 @@ const sendTransaction = forceAmount => {
         const { hash } = JSON.parse(data.toString());
 
         Session.balance = 0;
-        Session.mainWindow.webContents.send("message",
+        Session.mainWindow.webContents.send(
+          "message",
           JSON.stringify({
             hash
           })

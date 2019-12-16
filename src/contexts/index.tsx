@@ -1,5 +1,4 @@
 import React from "react";
-
 import StepProvider from "./Step";
 import PriceProvider from "./Price";
 import RateProvider from "./Rate";
@@ -8,7 +7,8 @@ import BalanceProvider from "./Balance";
 import HashProvider from "./Hash";
 import IsSubscribedProvider from "./IsSubscribed";
 import IsConfirmedProvider from "./IsConfirmed";
-import ConfigurationContext from "./Configuration";
+import ConfigurationProvider from "./Configuration";
+import ServerErrorProvider from "./ServerError";
 
 const IndexProvider: React.FunctionComponent = ({ children }) => {
   return (
@@ -20,7 +20,9 @@ const IndexProvider: React.FunctionComponent = ({ children }) => {
               <HashProvider>
                 <IsSubscribedProvider>
                   <IsConfirmedProvider>
-                    <ConfigurationContext>{children}</ConfigurationContext>
+                    <ServerErrorProvider>
+                      <ConfigurationProvider>{children}</ConfigurationProvider>
+                    </ServerErrorProvider>
                   </IsConfirmedProvider>
                 </IsSubscribedProvider>
               </HashProvider>

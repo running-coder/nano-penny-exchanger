@@ -1,10 +1,21 @@
-const { net, ipcMain } = require("electron");
+const { net } = require("electron");
 const { Session } = require("./Session");
 
 const POLL_TIMEOUT = 30000;
 const PRICE_URL = "https://api.binance.com/api/v3/ticker/price?symbol=NANOUSDT";
 
 let pollTimeout = null;
+
+const sendPriceError = () => {
+  Session.mainWindow.webContents.send(
+    "message",
+    JSON.stringify({
+      serverError: {
+        message: "Invalid Price"
+      }
+    })
+  );
+};
 
 const getPrice = () => {
   const request = net.request(PRICE_URL);
@@ -15,16 +26,24 @@ const getPrice = () => {
 
         Session.price = price;
 
-        Session.mainWindow.webContents.send(
-          "message",
-          JSON.stringify({
-            price
-          })
-        );
-      } catch (e) {
-        // log something?
+        if (!price) {
+          sendPriceError();
+        } else {
+          Session.mainWindow.webContents.send(
+            "message",
+            JSON.stringify({
+              price
+            })
+          );
+        }
+      } catch (error) {
+        sendPriceError();
       }
     });
+  });
+
+  request.on("error", () => {
+    sendPriceError();
   });
   request.end();
 };

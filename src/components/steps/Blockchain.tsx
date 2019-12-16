@@ -2,7 +2,6 @@ import React from "react";
 import QRCode from "qrcode";
 import { Box } from "@lightspeed/flame/Core";
 import { Button } from "@lightspeed/flame/Button";
-import { IconVerified } from "@lightspeed/flame/Icon/Verified";
 import { Spinner } from "@lightspeed/flame/Spinner";
 import { Text } from "@lightspeed/flame/Text";
 import { StepContext, Steps } from "contexts/Step";
@@ -111,7 +110,7 @@ const BlockchainStep: React.FunctionComponent = () => {
           ) : null}
 
           {isConfirmed ? (
-            <Box pb={1} fontSize="0.825rem" color="#D7DCE1">
+            <Box fontSize="0.825rem" color="#D7DCE1">
               The transaction is fully confirmed on the Nano blockchain!{" "}
               <span role="img" aria-labelledby="celebrate">
                 🎉
@@ -120,7 +119,7 @@ const BlockchainStep: React.FunctionComponent = () => {
           ) : null}
 
           {!isDone ? (
-            <Box pb={2}>
+            <Box>
               {!isConfirmed ? (
                 <>
                   <Box pb={1} fontSize="0.825rem" color="#D7DCE1">
@@ -128,16 +127,14 @@ const BlockchainStep: React.FunctionComponent = () => {
                   </Box>
                   <Spinner size="2.2rem" color="#4CADE9" />
                 </>
-              ) : (
-                <IconVerified size="2.2rem" color="#4CADE9" />
-              )}
+              ) : null}
             </Box>
           ) : null}
 
           {isConfirmed || isDone ? (
-            <Box>
+            <Box pt={1}>
               <Button variant="secondary" fill onClick={reset}>
-                Done!
+                Done
               </Button>
             </Box>
           ) : null}

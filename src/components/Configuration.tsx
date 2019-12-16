@@ -47,18 +47,17 @@ const Configuration = () => {
     if (configuration.SNAPY_NANO_ADDRESS) {
       setNanoAddress(configuration.SNAPY_NANO_ADDRESS);
     }
-    if (configuration.LOCAL_TUNNEL_SUBDOMAIN) {
-      setTunnel(configuration.LOCAL_TUNNEL_SUBDOMAIN);
-    }
+    // if (configuration.LOCAL_TUNNEL_SUBDOMAIN) {
+    setTunnel(configuration.LOCAL_TUNNEL_SUBDOMAIN || "");
+    // }
   }, [configuration]);
 
   const isMissingConfiguration =
     !configuration.SNAPY_API_KEY ||
     !configuration.SNAPY_API_PASSWORD ||
-    !configuration.SNAPY_NANO_ADDRESS ||
-    !configuration.LOCAL_TUNNEL_SUBDOMAIN;
+    !configuration.SNAPY_NANO_ADDRESS;
 
-  const isSaveEnabled = !apiKey || !apiPassword || !nanoAddress || !tunnel;
+  const isSaveEnabled = !apiKey || !apiPassword || !nanoAddress;
 
   const saveConfiguration = () => {
     setIsConfigurationVisible(false);
@@ -128,6 +127,7 @@ const Configuration = () => {
             onChange={e => {
               // @ts-ignore
               const { value } = e.target;
+              console.log("set tunnel", value);
               setTunnel(value);
             }}
           />

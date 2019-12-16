@@ -84,12 +84,12 @@ const WalletStep: React.FunctionComponent = () => {
           </Text>
 
           {step === Steps.WALLET ? (
-            <Box pt={3} fontSize="0.825rem" color="#D7DCE1">
+            <Box pt={1} fontSize="0.825rem" color="gray-300">
               Nano will be sent to the above address, verify that it is correct.
             </Box>
           ) : null}
 
-          <Box pt={3} textAlign="center">
+          <Box pt={1} textAlign="center">
             {step === Steps.WALLET ? (
               <Button
                 variant="secondary"

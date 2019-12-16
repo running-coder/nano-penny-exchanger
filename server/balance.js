@@ -2,11 +2,11 @@ const { Session } = require("./Session");
 const debounce = require("lodash/debounce");
 
 const PulseToAmountMap = {
-  1: 200, // 2$
-  2: 100, // 1$
-  3: 25, // 25c
-  4: 10, // 10c
-  5: 5 // 5c
+  2: 200, // 2$
+  3: 100, // 1$
+  4: 25, // 25c
+  5: 10, // 10c
+  6: 5 // 5c
 };
 
 let pulseCount = 0;

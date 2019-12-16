@@ -1,5 +1,4 @@
 const Store = require("electron-store");
-//const { Session } = require("./Session");
 const store = new Store();
 const configurationPath = "../configuration.json";
 

@@ -1,10 +1,21 @@
-const { net, ipcMain } = require("electron");
+const { net } = require("electron");
 const { Session } = require("./Session");
 
 const POLL_TIMEOUT = 30000;
 const RATE_URL = "https://api.exchangeratesapi.io/latest?base=USD&symbols=CAD";
 
 let pollTimeout = null;
+
+const sendRateError = () => {
+  Session.mainWindow.webContents.send(
+    "message",
+    JSON.stringify({
+      serverError: {
+        message: "Invalid Rate"
+      }
+    })
+  );
+};
 
 const getRate = () => {
   const request = net.request(RATE_URL);
@@ -17,16 +28,24 @@ const getRate = () => {
 
         Session.rate = rate;
 
-        Session.mainWindow.webContents.send(
-          "message",
-          JSON.stringify({
-            rate
-          })
-        );
+        if (!rate) {
+          sendRateError();
+        } else {
+          Session.mainWindow.webContents.send(
+            "message",
+            JSON.stringify({
+              rate
+            })
+          );
+        }
       } catch (e) {
-        // log something?
+        sendRateError();
       }
     });
+  });
+
+  request.on("error", () => {
+    sendRateError();
   });
   request.end();
 };

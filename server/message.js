@@ -4,7 +4,11 @@ const { getPrice, pollPrice, stopPollPrice } = require("./price");
 const { getRate, pollRate, stopPollRate } = require("./rate");
 
 const { sendConfiguration, setConfiguration } = require("./configuration");
-const { deleteWebhooks, subscribeToWebhook } = require("./snapy");
+const {
+  deleteWebhooks,
+  subscribeToWebhook,
+  sendTransaction
+} = require("./snapy");
 
 ipcMain.on("start-app", () => {
   sendConfiguration();
@@ -57,6 +61,8 @@ const listenForMessages = () => {
         getPrice();
       } else if (method === "getRate") {
         getRate();
+      } else if (method === "send") {
+        sendTransaction();
       }
     } catch (e) {
       // log error?

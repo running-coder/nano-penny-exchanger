@@ -6,6 +6,7 @@ import { HashContext } from "contexts/Hash";
 import { IsSubscribedContext } from "contexts/IsSubscribed";
 import { IsConfirmedContext } from "contexts/IsConfirmed";
 import { ConfigurationContext } from "contexts/Configuration";
+import { ServerErrorContext } from "contexts/ServerError";
 
 const IpcRenderer = () => {
   const [, setBalance] = React.useContext(BalanceContext);
@@ -14,6 +15,7 @@ const IpcRenderer = () => {
   const [, setHash] = React.useContext(HashContext);
   const [, setIsSubscribed] = React.useContext(IsSubscribedContext);
   const [, setIsConfirmed] = React.useContext(IsConfirmedContext);
+  const [, setServerError] = React.useContext(ServerErrorContext);
   const [
     ,
     setConfiguration,
@@ -38,7 +40,8 @@ const IpcRenderer = () => {
           hash,
           isSubscribed,
           isConfirmed,
-          configuration
+          configuration,
+          serverError
         } = JSON.parse(data);
 
         console.log("app receives", data);
@@ -58,6 +61,8 @@ const IpcRenderer = () => {
         } else if (configuration) {
           setConfiguration(configuration);
           setIsConfigurationReady(true);
+        } else if (typeof serverError !== "undefined") {
+          setServerError(serverError);
         }
       } catch (e) {
         // Error handling

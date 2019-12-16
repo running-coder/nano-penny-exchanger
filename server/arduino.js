@@ -1,27 +1,31 @@
 const { Board, Pin } = require("johnny-five");
 const { addPulse, countPulses } = require("./balance");
-const board = new Board();
+const { Session } = require("./Session");
 
-let ignoreInitialPulses = true;
+const COIN_ACCEPTOR_PIN = 2;
+
+const board = new Board();
 
 board.on("ready", () => {
   console.log("Ready!~");
 
-  board.pinMode(2, Pin.INPUT);
-  board.digitalRead(2, value => {
-    if (ignoreInitialPulses) return;
-
+  board.pinMode(COIN_ACCEPTOR_PIN, Pin.INPUT);
+  board.digitalRead(COIN_ACCEPTOR_PIN, value => {
     console.log("value~~", value);
 
-    if (value === 1) {
+    if (value === board.io.HIGH) {
       addPulse();
     }
 
     countPulses();
   });
+});
 
-  // Give it 3 seconds after the app is started to start considering pulses
-  setTimeout(() => {
-    ignoreInitialPulses = false;
-  }, 3000);
+board.on("fail", error => {
+  Session.mainWindow.webContents.send(
+    "message",
+    JSON.stringify({
+      serverError: error
+    })
+  );
 });

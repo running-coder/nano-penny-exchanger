@@ -5,6 +5,7 @@ import { IconHelp } from "@lightspeed/flame/Icon/Help";
 import { Text, Heading3 } from "@lightspeed/flame/Text";
 
 import Configuration from "components/Configuration";
+import ServerError from "components/ServerError";
 import Layout from "components/Layout";
 import Footer from "components/Footer";
 import WalletStep from "components/steps/Wallet";
@@ -43,6 +44,7 @@ const IndexPage: React.FunctionComponent<Props> = ({ history }) => {
       <Footer />
 
       <Configuration />
+      <ServerError />
     </Layout>
   );
 };

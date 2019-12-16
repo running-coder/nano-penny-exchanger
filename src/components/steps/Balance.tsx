@@ -45,7 +45,7 @@ const BalanceStep: React.FunctionComponent = () => {
 
       {balance && rate && price ? (
         <>
-          <Box py={2}>
+          <Box pb={1}>
             <IconArrowDown
               color={isActive ? "#4CADE9" : "gray-500"}
               size="1.8rem"
@@ -69,7 +69,7 @@ const BalanceStep: React.FunctionComponent = () => {
             </Box>
           </Text>
           {step === Steps.BALANCE || step === Steps.BLOCKCHAIN ? (
-            <Box pt={3} textAlign="center">
+            <Box pt={1} textAlign="center">
               {step === Steps.BALANCE ? (
                 <Button
                   variant="secondary"
@@ -77,9 +77,10 @@ const BalanceStep: React.FunctionComponent = () => {
                   onClick={() => {
                     setStep(Steps.BLOCKCHAIN);
 
-                    fetch("http://localhost:8080/send", {
-                      method: "POST"
-                    });
+                    window.ipcRenderer.send(
+                      "message",
+                      JSON.stringify({ method: "send" })
+                    );
                   }}
                 >
                   Convert
