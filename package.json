@@ -45,7 +45,10 @@
     },
     "linux": {
       "target": {
-        "target": "AppImage"
+        "target": "AppImage",
+        "arch": [
+          "armv7l"
+        ]
       }
     },
     "files": [
