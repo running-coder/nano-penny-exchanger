@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "private": false,
   "main": "public/electron.js",
+  "homepage": ".",
   "author": {
     "name": "Tom Bertrand"
   },
