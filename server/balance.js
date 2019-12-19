@@ -1,5 +1,5 @@
 const { Session } = require("./Session");
-const debounce = require("lodash/debounce");
+const debounce = require("lodash.debounce");
 
 const PulseToAmountMap = {
   2: 200, // 2$

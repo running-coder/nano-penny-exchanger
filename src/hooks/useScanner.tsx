@@ -1,5 +1,5 @@
 import React from "react";
-import debounce from "lodash/debounce";
+import debounce from "lodash.debounce";
 import { Steps, StepContext } from "contexts/Step";
 import { WalletContext } from "contexts/Wallet";
 import { IsSubscribedContext } from "contexts/IsSubscribed";
